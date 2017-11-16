@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			body{
+				color: white;
+			}
+		</style>
+	</head>
+
+	<body style="border-radius: 10px;background-image: url(images/userBg1.png);">
+	
+	<div class="mui-card" style="margin-top: 15px;padding: 10px; background-image: url(images/userBg.png);background-size: contain;BACKGROUND-COLOR: transparent;">
+		
+		<img src="images/user1.png" class="mui-pull-left" width="25%" style="float: left;background-image: url(images/userBg.png);"/>
+	    <p id="account1" style="float: left; font-size: 2em;color: white;padding: 10px;" class="mui-pull-left">XXXX</p>
+	
+	</div>
+	
+    <ul class="mui-table-view" style="margin: 10px;border-radius: 10px;BACKGROUND-COLOR: transparent;">
+        <li class="mui-table-view-cell mui-collapse" style="BACKGROUND-COLOR: transparent;">
+            <a class="mui-navigate-right" href="#">联系方式</a>
+            <div class="mui-collapse-content" style="BACKGROUND-COLOR: transparent;"> 
+                <p id="one">面板1子内容</p>
+               
+            </div>
+        </li>
+        <li class="mui-table-view-cell mui-collapse" style="BACKGROUND-COLOR: transparent;">
+            <a class="mui-navigate-right" href="#">停车卡号</a>
+                <div class="mui-collapse-content" style="BACKGROUND-COLOR: transparent;">
+                <p id="two">面板2子内容</p>
+            </div>
+        </li>
+        <li class="mui-table-view-cell mui-collapse" style="BACKGROUND-COLOR: transparent;">
+            <a class="mui-navigate-right" href="#">消费金额</a>
+            <div class="mui-collapse-content" style="BACKGROUND-COLOR: transparent;">
+              <label class="mui-pull-left" style="color: gray;font-size: 0.8em;">进库时间：</label>  <p id="three_1" >停车时间：</p>
+               
+            </div>
+        </li>
+        <li class="mui-table-view-cell mui-collapse" style="BACKGROUND-COLOR: transparent;">
+            <a class="mui-navigate-right" href="#">停车点</a>
+                <div class="mui-collapse-content" style="BACKGROUND-COLOR: transparent;">
+                <p id="four" contenteditable="true">一号库</p>
+            </div>
+        </li>
+    </ul>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+		<script type="text/javascript">
+			mui.init({
+				 swipeBack: false,
+                 keyEventBind: {
+                 backbutton: false //关闭back按键监听
+                               }
+			});
+			var index, menu;
+			 var data1;
+            var account1=document.getElementById("account1");
+          
+mui.plusReady(function(){
+    index = plus.webview.getWebviewById("garage");
+    menu  = plus.webview.currentWebview();
+    menu.drag({
+        direction:"left",
+        moveMode:"followFinger"
+        
+    },{
+        view:index,
+        moveMode:"follow"
+    });
+   account1.innerHTML=menu.account;
+   data1=menu.account;
+$.ajax({
+	type:"post",
+	url:"http://10.0.116.133:8080/BigTestWeek/servlet/Park?method=find&account="+data1,
+	async:true,
+	dataType:"json",
+	success:function(data){
+		
+		$("#one").html(data.tel);
+		$("#two").html(data.rfidNumber);
+		$("#four").html(data.locate);
+		if(data.time){
+		$("#three_1").html(data.time);}
+		else{
+			var date1=new Date();
+			var month=date1.getMonth()+1;
+			var day=date1.getDate();
+			var hour=date1.getHours();
+			var minute=date1.getMinutes();
+			$("#three_1").html(month+"-"+day+" "+hour+":"+minute);
+		}
+						},
+	error:function(jqXHR){
+							alert("网络发生错误："+jqXHR.status);
+						}	,
+	
+});
+  
+  
+  window.addEventListener('close', function(e){//执行刷新
+  	//location.reload();
+  	var garage=plus.webview.getWebviewById('garage');
+  	var index=plus.webview.getLaunchWebview();
+  	garage.close();
+    mui.back();
+    index.reload();
+    
+  });
+  window.addEventListener('car_locate',function(e){
+				console.log("car_locatelistener")
+				var four=$("#four");
+				alert(e.detail.car_locate1);
+				four.html(e.detail.car_locate1);
+				
+			});
+	window.addEventListener('refresh',function(e){
+				
+				location.reload();
+	
+			});		
+			
+	$("#four").blur(function(){
+			$.ajax({
+					type:"post",
+					url:"http://10.0.116.133:8080/BigTestWeek/servlet/Park?method=updateLocate&account="+data1,
+					async:true,
+					
+					data:{
+							"locate":$("#four").html(),
+								},
+					success:function(data){
+					 alert("updateLocate成功")	;
+					},
+					
+					error:function(jqXHR){
+						alert("网络发生错误："+jqXHR.status);
+					}	
+				});
+	})
+
+});
+
+
+		</script>
+	</body>
+
+</html>

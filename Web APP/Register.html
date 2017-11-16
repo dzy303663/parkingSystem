@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+    <style >
+    	label{
+    		margin-top:10px;
+    		
+    	}
+    	input,button{
+    		border-radius:10px;
+    		/*box-shadow: 5px 5px 5px #888888;*/
+    	}
+    	input{
+    		BACKGROUND-COLOR: transparent;
+    	}
+    	font{
+    		color: white;
+    		font-style:italic;
+    	}
+    	
+    </style> 
+</head>
+<body style="height: 100%;">
+	<a class="mui-action-back mui-pull-left mui-icon mui-icon-left-nav"></a>
+	<div  style="padding: 50px 20px;height: 100%;background-image: url(images/backimg.png); background-size:100%;" >
+	 <form>
+	<center><h1 style="margin-bottom: 50px;color: white;font-style:italic;font-weight: 200;">Sign up</h1></center>
+		<input type="text" id="account" class="mui-input-clear mui-input" onblur="checkAccount();" style="border-radius:10px;BACKGROUND-COLOR: transparent;" placeholder="用户名"/>
+		<!--<label >密码：</label>-->
+		<input type="password" id="password0" class="mui-input-password mui-input" style="border-radius:10px;BACKGROUND-COLOR: transparent;"placeholder="密码"/>
+		<!--<label >确认密码：</label>-->
+		<input type="password" id="password1" class="mui-input-password mui-input" style="border-radius:10px;BACKGROUND-COLOR: transparent;"placeholder="确认密码"/>
+		<!--<label >联系电话：</label>-->
+		<input required="required" type="text" id="tel" class="mui-input-numbox mui-input" style="border-radius:10px;BACKGROUND-COLOR: transparent;"placeholder="联系电话"/>
+	</form>
+	<!--<label >性别：</label>-->
+	<select id="sex" style="BACKGROUND-COLOR: transparent;border-radius:10px;" >
+		<option>男</option>
+		<option>女</option>
+	</select>
+		<input type="text" id="cardid" style="border-radius:10px;BACKGROUND-COLOR: transparent;"placeholder="停车卡号（选填）"/> 
+		<center><button id="save" style="BACKGROUND-COLOR: transparent;">注册</button></center>
+		</div>
+		<script src="js/jquery-3.2.1.min.js">
+		</script>
+		<script>
+			mui.init();
+			
+			$("#account").blur(checkAccount());
+			function checkAccount(){
+				$.ajax({
+						type:"post",
+						url:"http://10.0.116.133:8080/BigTestWeek/servlet/Park?method=find&account="+$("#account").val(),
+						async:true,
+						dataType:"json",
+						success:function(data){
+							if($("#account").val()===data.account){
+								mui.toast("用户名已被注册，请更改");
+							}else{
+								mui.toast("用户名可用");
+							};
+						}
+					});
+			};
+		/*	$(document).ready(function(){
+				$("#search").click(function(){ 
+					$.ajax({
+						type:"get",
+						url:"http://localhost:8080/BigTestWeek/servlet/Park?method=find&account="+$("#keyword").val(),
+						async:true,
+						dataType:"json",
+						success:function(data){
+							$("#searchResult").html(data.name);
+						},
+						error:function(jqXHR){
+							alert("发生错误："+jqXHR.status);
+						}
+						
+						
+					});
+				});
+			});*/
+			
+			$(document).ready(function(){
+				var cardid;
+				if($("#cardid").val()==""){
+					cardid=0;
+				}else{
+					cardid=$("#cardid").val();
+				}
+				$("#save").click(function(){ 
+					if($("#account").val()==""||$("#password0").val()==""||$("#password1").val()==""||$("#tel").val()==""){
+					mui.toast("请完整填写信息");
+				}
+					if($("#password0").val()!=$("#password1").val()){
+						mui.toast("两次输入密码不一样");
+					}else{
+					$.ajax({
+						type:"post",
+						url:"http://10.158.192.24:8080/BigTestWeek/servlet/Park?method=add",
+						async:true,
+						//dataType:"json",
+						data:{
+							"account":$("#account").val(),
+							"password0":$("#password0").val(),
+							"tel":$("#tel").val(),
+							"cardid":cardid},
+	
+						success:function(data){
+							mui.toast("注册成功");
+							
+						},
+						error:function(jqXHR){
+							alert("发生错误："+jqXHR.status);
+						}
+					});}
+				});
+			});
+		</script>
+</body>
+
+</html>

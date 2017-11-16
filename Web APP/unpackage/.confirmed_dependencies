@@ -1,0 +1,55 @@
+{
+  "index.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/jquery-3.2.1.min.js",
+      "images/backimg.png",
+      "cehua.html"
+    ],
+    "refer": [
+      "Register.html",
+      "garage.html",
+      "cehua.html"
+    ]
+  },
+  "Register.html": {
+    "resources": [
+      "js/jquery-3.2.1.min.js",
+      "images/backimg.png",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf"
+    ]
+  },
+  "garage.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/jquery-3.2.1.min.js",
+      "countdown.js",
+      "digit.js",
+      "images/parkBg.png",
+      "images/car.png",
+      "images/car1.png",
+      "images/car2.png",
+      "css/car_style.css"
+    ],
+    "refer": [
+      "cehua.html"
+    ]
+  },
+  "cehua.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "images/user.png",
+      "images/userBg.png",
+      "images/userBg1.png",
+      "images/user1.png",
+      "js/jquery-3.2.1.min.js"
+    ]
+  }
+}

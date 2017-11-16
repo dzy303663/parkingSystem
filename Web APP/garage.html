@@ -1,0 +1,369 @@
+<!doctype html>
+<html >
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/car_style.css" rel="stylesheet" />
+	<style>
+		button{
+			border-radius:10px;
+					}
+		#welcome{
+			position: absolute;
+			
+			top: 40%;
+		    width: 100%;
+		    text-align: center;
+		    border-bottom:1px solid #FFFFFF;
+		    line-height: initial;
+		}
+	</style> 
+</head>
+
+<body style="height: 100%;background-color: grey;">
+    <script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init() 
+	</script>
+		<header class="mui-bar mui-bar-nav" style="">
+		    <h1 class="mui-title">XXX停车场</h1>
+		</header>
+		
+		
+		
+
+
+		
+		
+	<div class="mui-content">
+	<div style="">
+   	<button id="car_in" class="mui-pull-left" style="margin-left: 20%;margin-top: 5%;">入库</button>
+    <button id="car_out" class="mui-pull-right" style="margin-right: 20%;margin-top: 5%;">出库</button>
+	<div id="park_wrap" class="park_wrap" style="BACKGROUND-COLOR: transparent;;background-position:center center;background-image: url(images/parkBg.png);background-size: contain;background-repeat: no-repeat;padding: 10px;position: absolute;height:100%;width: 100%;margin-top: -10%; ">
+		<div id="car">
+			<div id="" class="car1 car_ver_1" style="">
+				<img id="car1" value="一号库" src="images/car2.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			 <div id="" class="car1 car_ver_2" style="">
+				<img id=""  src="images/car2.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			<div id="" class="car1 car_ver_3" style="">
+				<img id="car2" value="二号库" src="images/car2.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			<div id="" class="car1 car_ver_4" style="">
+				<img id="" src="images/car2.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			
+			
+			<div id="" class="car2  car_ver_1" style="">
+			    <img id="" src="images/car1.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			 <div id="" class="car2 car_ver_2" style="">
+				<img id="car3" value="三号库" src="images/car1.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			<div id="" class="car2 car_ver_3" style="">
+				<img id="" src="images/car1.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			<div id="" class="car2 car_ver_4" style="">
+				<img id="" src="images/car1.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			  
+			
+			<div id="" class="car3 car_ver_1"style="">
+			    <img id="" src="images/car2.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			 <div id="" class="car3 car_ver_2" style="">
+				<img id="" src="images/car2.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			<div id="" class="car3 car_ver_3" style="">
+				<img id="car4" value="四号库" src="images/car2.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			<div id="" class="car3 car_ver_4" style="">
+				<img id="" src="images/car2.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			
+			
+			<div id="" class="car4 car_ver_1" style="">
+			    <img id="car5" value="五号库" src="images/car1.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			 <div id="" class="car4 car_ver_2"style="">
+				<img id "" src="images/car1.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			<div id="" class="car4 car_ver_3" style="">
+				<img id="" src="images/car1.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+			<div id="" class="car4 car_ver_4" style="">
+				<img id="car6" value="六号库" src="images/car1.png" width="26px" style="margin-left: 4px;"/>
+			</div>
+		</div>
+		
+	</div>
+	
+	
+	</div>
+	<div id="welcome">
+	<p style="font-size: 2em;
+			font-weight: bold;
+			font-family: '宋体';
+			color: #C7C7CC;
+			"><span id="account1"></span>您好，欢迎使用</p></div>
+			
+		
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script > 
+			mui.init({
+			beforeback: function() {
+　　　　      //获得侧滑页面的webview
+            var cehua = plus.webview.getWebviewById('cehua.html');
+　　　         　 //触发子页面的自定义事件(refresh),从而进行刷新
+            mui.fire(cehua, 'close');
+            //返回true,继续页面关闭逻辑
+          
+            return true;
+}
+		});
+		var menu, _self;
+		/*var mask=mui.createMask();
+		mask.show();*/
+		var account1=document.getElementById("account1");
+		var data1;
+		var car1=$("#car1");
+		var car2=$("#car2");
+		var car3=$("#car3");
+		var car4=$("#car4");
+		var car5=$("#car5");
+		var car6=$("#car6");
+		var carList=new Array(car1,car2,car3,car4,car5,car6);
+		//预计停车库
+		var car_status;
+		var car_index;
+		
+		
+		mui.plusReady(function(){
+		var cehua = plus.webview.getWebviewById('cehua.html');
+		//停车场隐藏
+		hide();
+		setInterval(function(){
+		$.ajax({
+					type:"post",
+					url:"http://10.0.116.133:8080/BigTestWeek/servlet/Park?method=garageData",
+					async:true,
+					dataType:"json",
+					success:function(data){
+						init(data);
+					},
+					error:function(jqXHR){
+						
+					}	
+				});
+		},3000);
+		var welcome=$("#welcome");
+		//欢迎语淡入
+		welcome.hide();
+		welcome.fadeIn("slow"); 
+		//获取登录界面传来的数据
+		window.addEventListener('indexData',function(e){
+				console.log("garagelistener")
+				data1=e.detail.account;
+				account1.innerHTML=e.detail.account;
+				var data2=e.detail.account;
+			});
+			
+			document.getElementById("welcome").addEventListener('tap',function(){
+				console.log("listner");
+				show();
+				//获取停车场数据
+				
+				//欢迎语淡出
+				welcome.fadeOut("slow");
+				/**
+				 * 侧滑菜单栏样式
+				 */
+				var menu_style={
+				left: "-70%",
+                width: '70%',
+                popGesture: "none",
+                render :"always"
+			}
+		//console.log("garage");
+		menu=mui.openWindow({
+			 id: 'cehua.html',
+             url: 'cehua.html',
+             styles: menu_style,
+             show: {
+                  aniShow: 'none'
+              },
+              extras:{
+					account:data1,
+			  },
+             waiting: {
+                  autoShow: false
+            }
+		});
+	/*	var menu1=plus.webview.getWebviewById('cehua.html');
+		mui.fire(menu1,'menuAccount',{
+			account:data1
+		});*/
+		_self = plus.webview.currentWebview();
+		setTimeout(function() {
+        _self.drag({
+       direction: "right",
+        moveMode: "followFinger"
+        },{
+        view: menu,
+        moveMode: "follow"
+         }, function(e) {});
+         }, 350);
+				
+			});
+			/**
+			 * 入库按钮事件
+			 */
+		document.getElementById("car_in").addEventListener('tap',function(){
+			getGarageDta();
+			var date1=new Date();
+			var month=date1.getMonth()+1;
+			var day=date1.getDate();
+			var hour=date1.getHours();
+			var minute=date1.getMinutes();
+			var in_time=month+"-"+day+" "+hour+":"+minute;
+			$.ajax({
+	     		type:"post",
+				url:"http://10.0.116.133:8080/BigTestWeek/servlet/Park?method=balance",
+				async:true,
+				data:{
+							"in_time":in_time,
+							"account":data1,
+								},
+				success:function(data){
+					 
+					},
+	
+				error:function(jqXHR){
+							alert("网络发生错误："+jqXHR.status);
+						}	,
+	
+});
+            var cehua = plus.webview.getWebviewById('cehua.html');
+　　　         　 //触发子页面的自定义事件(refresh),从而进行刷新
+            mui.fire(cehua,'refresh',{});
+			window.setTimeout(updateLocate,7000);
+		});
+	/**
+	 * 出库按钮事件
+	 */
+		document.getElementById("car_out").addEventListener('tap',function(){
+			var cehua = plus.webview.getWebviewById('cehua.html');
+			mui.fire(cehua,'refresh',{});
+			$.ajax({
+				type:"post",
+				url:"http://10.0.116.133:8080/BigTestWeek/servlet/Park?method=car_out",
+				async:true,
+				dataType:"json",
+				data:{
+							
+							"account":data1,
+								},
+					success:function(data){
+					 mui.toast("您大约消费的金额为："+data.cost)	;
+					 mui.fire(cehua,'refresh',{});
+					},
+				error:function(jqXHR){
+							alert("网络发生错误："+jqXHR.status);
+						}	,
+				});		
+		});
+		/**
+		 * 获取车库停车数据
+		 */
+		function getGarageDta(){
+			console.log("getGarageDta");
+				$.ajax({
+					type:"post",
+					url:"http://10.0.116.133:8080/BigTestWeek/servlet/Park?method=garageData",
+					async:true,
+					dataType:"json",
+					success:function(data){
+						var dataList=new Array(data.one,data.two,data.three,data.four,data.five,data.six);
+						for(var i=0;i<carList.length;i++){
+				            if(dataList[i]=="空位"){
+				            	car_status=carList[i];
+				            	car_index=i;
+				            	for(var j=0;j<=5;j++){
+					                     carList[i].fadeIn();
+					                     carList[i].fadeOut();
+					                     }
+				            	break;
+				                }
+			           }
+					},
+					error:function(jqXHR){
+						alert("网络发生错误："+jqXHR.status);
+					}	
+				});
+				
+				
+				
+		} 
+		
+		function updateLocate(){
+			//alert(car_status.attr('id')+"aaa"+car_index);
+			$.ajax({
+					type:"post",
+					url:"http://10.0.116.133:8080/BigTestWeek/servlet/Park?method=garageData",
+					async:true,
+					dataType:"json",
+					success:function(data){
+					var dataList=new Array(data.one,data.two,data.three,data.four,data.five,data.six);
+						if(dataList[Number(car_index)]==="已停"){
+							carList[Number(car_index)].fadeIn();
+							var cehua = plus.webview.getWebviewById('cehua.html');
+							mui.fire(cehua,'car_locate',{
+									car_locate1:car_status.attr('value')
+							});
+						}
+					},
+					error:function(jqXHR){
+						alert("网络发生错误："+jqXHR.status);
+					}	
+				});
+		}
+		
+		function hide(){
+			var parkwrap=$("#park_wrap")
+			parkwrap.hide();
+		}
+		
+		function show(){
+			var parkwrap=$("#park_wrap")
+			parkwrap.fadeIn();
+		}
+		function init(data){
+			var car1=$("#car1");
+			var car2=$("#car2");
+			var car3=$("#car3");
+			var car4=$("#car4");
+			var car5=$("#car5");
+			var car6=$("#car6");
+			var carList=new Array(car1,car2,car3,car4,car5,car6);
+			var dataList=new Array(data.one,data.two,data.three,data.four,data.five,data.six);
+			//初始化传感器车位
+			for(var i=0;i<carList.length;i++){
+				carList[i].hide();
+			}
+			//获取数据重置车位
+			for(var i=0;i<carList.length;i++){
+				if(dataList[i]=="已停"){
+					carList[i].fadeIn();
+				}
+			}
+			
+		}
+	});
+	</script>
+</body> 
+
+</html>

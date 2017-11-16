@@ -1,0 +1,190 @@
+<!doctype html>
+<html style="height: 100%;">
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			input,button{
+				border-radius:10px;
+			}
+		</style>
+	</head>
+
+	<body style="height: 100%;">
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			
+		</script>
+		<div class="mui-content" style="height: 100%;padding: 150px 20px;background-image: url(images/backimg.png);">
+			<center><h1 style="margin-bottom: 50px;color: white;font-style: normal;font-weight: 100;">欢迎使用</h1></center>
+			<input type="text" id="account" class="mui-input-clear mui-input"  style="border-radius:10px;BACKGROUND-COLOR: transparent;" placeholder="用户名"/>
+		    <input type="password" id="password0" class="mui-input-password mui-input" style="border-radius:10px;BACKGROUND-COLOR: transparent;"placeholder="密码"/>
+    <center><button id="save"  style="BACKGROUND-COLOR: transparent;margin-top: 20px;">登录</button>
+	        <button id="register"  style="BACKGROUND-COLOR: transparent;margin-top: 20px;margin-left: 20px;">注册</button></center>
+			
+			
+		</div>
+		<script type="text/javascript" src="js/mui.min.js" ></script>
+		<script src="js/jquery-3.2.1.min.js"></script>
+		<script>
+			
+		function transUsername(str){
+			var str1 = '';
+			var str2 = '';
+			var temp = [];
+			var len = str.length;
+			var result = '';
+			for(var i = 0; i<len; i++ ){ 
+			//	if((str.charCodeAt(i)>64&&str.charCodeAt(i)<91)||(str.charCodeAt(i)>96&&str.charCodeAt(i)<120)){
+					 temp.push(str.charCodeAt(i)+10);	
+			//	}
+			//	if(str.charCodeAt(i)>48&&str.charCodeAt(i)<58){
+				//	temp.push(str.charCodeAt(i)+80);
+			//	}
+				
+			}
+			
+			for (var i = 0;i<temp.length;i++) {
+				
+				
+				str2 = String.fromCharCode(temp[i]);
+				
+				
+//				if(temp[i]>2048&&temp[i]<2058){
+//					str2 = String.fromCharCode(temp[i]);
+//				}
+//				else{
+//					str2 = String.fromCharCode(temp[i]);
+//				} 
+				
+				result = result + str2;
+				
+			}
+			return result;
+			 //console.log(result+"   ascll");
+		}
+			mui.init({
+				preloadPages:[{
+					url:"Register.html",
+					id:"Regester",
+				}],
+				preloadPages:[{
+					url:"garage.html",
+					id:"garage",
+				}],
+			  
+			});
+			
+			
+			mui.plusReady(function(){ 
+				document.getElementById("register").addEventListener('tap',function(){
+					mui.openWindow({
+						url:"Register.html",
+						id:"Regester",
+						show:{
+							aniShow:"fade-in",
+							duration:1000
+						}
+						
+					})
+				});	
+				
+				
+			    document.getElementById("save").addEventListener('tap',function(){
+			    			if($("#account").val()==""||$("#password0").val()==""){
+					mui.toast("请正确输入用户名和密码");
+					return;
+				} 
+				
+				var username = transUsername($("#account").val());
+				console.log(username);
+				$.ajax({
+						type:"get",
+						url:"http://10.0.116.133:8080/BigTestWeek/servlet/Park?method=find&account="+username,
+						async:true,
+						dataType:"json",
+						success:function(data){
+							if(data.password===$("#password0").val()){
+								mui.toast("登录成功");
+								Page = plus.webview.getWebviewById('garage');  
+								//Page1=plus.webview.getWebviewById('cehua');
+								mui.fire(Page,'indexData',{
+									account:$("#account").val()
+								});
+								/*mui.fire(Page1,'show1',{
+									account:$("#account").val()
+								});*/
+								mui.openWindow({
+									url:"garage.html",
+									id:"garage",
+									extras:{
+										account:"aaa"
+										},
+									show:{
+							aniShow:"fade-in",
+							duration:1000
+						}
+									
+								})
+							}else{
+								mui.toast("用户名或密码错误");
+							}
+						},
+						error:function(jqXHR){
+							alert("网络发生错误："+jqXHR.status);
+						}
+						
+						
+					});
+			    })
+			
+			}
+	
+			);
+				
+
+			/*function up(){
+				if($("#account").val()==""||$("#password0").val()==""){
+					mui.toast("请正确输入用户名和密码");
+					return;
+				}
+				$.ajax({
+						type:"get",
+						url:"http://10.158.192.24:8080/BigTestWeek/servlet/Park?method=find&account="+$("#account").val(),
+						async:true,
+						dataType:"json",
+						success:function(data){
+							if(data.password===$("#password0").val()){
+								mui.toast("登录成功");
+								mui.openWindow({
+									url:"garage.html",
+									id:"garage",
+									extras:{
+										account:"aaa"
+										},
+									show:{
+							aniShow:"fade-in",
+							duration:2000
+						}
+									
+								})
+							}else{
+								mui.toast("用户名或密码错误");
+							}
+						},
+						error:function(jqXHR){
+							alert("网络发生错误："+jqXHR.status);
+						}
+						
+						
+					});
+			}*/
+		
+			
+		</script>
+	</body>
+
+</html>

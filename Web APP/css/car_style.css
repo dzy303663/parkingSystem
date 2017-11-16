@@ -1,0 +1,48 @@
+
+
+
+#car div{
+	width: 14%;
+	height: 10%;
+
+	position: absolute;
+	
+}
+#car .car1{
+	margin-top: 42%;
+}
+#car .car2{
+	margin-top: 80%;
+}
+#car .car3{
+	margin-top:113%;
+}
+#car .car4{
+	margin-top: 149%;
+}
+#car .car_ver_1{
+	margin-left: 17%;
+}
+#car .car_ver_2{
+	margin-left: 38%;
+}
+#car .car_ver_3{
+	margin-left: 59%;
+}
+#car .car_ver_4{
+	margin-left: 80%;
+}
+#car img{
+	width: 35px;
+}
+button{
+	background-color: #777777;
+	border: 2px solid #8F8F94;
+	border-radius: 0px;
+	color: #fff;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: none;
+	z-index: 1;
+}
+
